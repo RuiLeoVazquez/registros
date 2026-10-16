@@ -1,0 +1,14 @@
+<?php
+require_once __DIR__ . '/../conexion.php'; $mensaje=""; $clase="success";
+if($_SERVER["REQUEST_METHOD"]==="POST"){
+ try{$cal=$_POST["calificacion"]===""?null:$_POST["calificacion"];$s=$conexion->prepare("INSERT INTO asignar_materia(idmateria,idalumn,idprof,calificacion) VALUES(?,?,?,?)");$s->bind_param("iiid",$_POST["materia"],$_POST["alumno"],$_POST["profesor"],$cal);$s->execute();$mensaje="Materia asignada correctamente.";}catch(Throwable $e){$mensaje="Error: ".$e->getMessage();$clase="danger";}
+}
+$alumnos=$conexion->query("SELECT idalumn,matricula_al,nombre_al,apaterno_al FROM alumnos WHERE estatus_al='ALTA' ORDER BY nombre_al");
+$materias=$conexion->query("SELECT idmateria,descripcion_mat FROM materias WHERE estatus_mat='ACTIVA' ORDER BY descripcion_mat");
+$profesores=$conexion->query("SELECT idprof,nombre_prof,apaterno_prof FROM profesores WHERE estatus_prof='ALTA' ORDER BY nombre_prof");
+?>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Asignar materia</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link href="../assets/estilos.css" rel="stylesheet"></head><body class="bg-light"><main class="container py-4"><a href="../index.php" class="btn btn-secondary mb-3">Volver al menú</a><div class="card shadow-sm"><div class="card-body"><h2>Asignar materia</h2><?php if($mensaje):?><div class="alert alert-<?php echo $clase;?>"><?php echo htmlspecialchars($mensaje);?></div><?php endif;?><form method="post">
+<label class="form-label mt-2">Alumno</label><select name="alumno" class="form-select" required><option value="">Selecciona</option><?php while($f=$alumnos->fetch_assoc()):?><option value="<?php echo $f['idalumn'];?>"><?php echo htmlspecialchars($f['matricula_al'].' - '.$f['nombre_al'].' '.$f['apaterno_al']);?></option><?php endwhile;?></select>
+<label class="form-label mt-2">Materia</label><select name="materia" class="form-select" required><option value="">Selecciona</option><?php while($f=$materias->fetch_assoc()):?><option value="<?php echo $f['idmateria'];?>"><?php echo htmlspecialchars($f['descripcion_mat']);?></option><?php endwhile;?></select>
+<label class="form-label mt-2">Profesor</label><select name="profesor" class="form-select" required><option value="">Selecciona</option><?php while($f=$profesores->fetch_assoc()):?><option value="<?php echo $f['idprof'];?>"><?php echo htmlspecialchars($f['nombre_prof'].' '.$f['apaterno_prof']);?></option><?php endwhile;?></select>
+<label class="form-label mt-2">Calificación (opcional)</label><input type="number" name="calificacion" min="0" max="100" step="0.01" class="form-control"><button class="btn btn-success mt-3">Guardar asignación</button></form></div></div></main></body></html>

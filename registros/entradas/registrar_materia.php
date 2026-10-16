@@ -1,0 +1,7 @@
+<?php
+require_once __DIR__ . '/../conexion.php'; $mensaje=""; $clase="success";
+if($_SERVER["REQUEST_METHOD"]==="POST"){
+ try{$s=$conexion->prepare("INSERT INTO materias(descripcion_mat,estatus_mat) VALUES(?,?)");$s->bind_param("ss",$_POST["descripcion"],$_POST["estatus"]);$s->execute();$mensaje="Materia registrada correctamente.";}catch(Throwable $e){$mensaje="Error: ".$e->getMessage();$clase="danger";}
+}
+?>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Registrar materia</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link href="../assets/estilos.css" rel="stylesheet"></head><body class="bg-light"><main class="container py-4"><a href="../index.php" class="btn btn-secondary mb-3">Volver al menú</a><div class="card shadow-sm"><div class="card-body"><h2>Registrar materia</h2><?php if($mensaje):?><div class="alert alert-<?php echo $clase;?>"><?php echo htmlspecialchars($mensaje);?></div><?php endif;?><form method="post" class="row g-3"><div class="col-md-8"><label class="form-label">Descripción de la materia</label><input name="descripcion" class="form-control" required></div><div class="col-md-4"><label class="form-label">Estatus</label><select name="estatus" class="form-select"><option>ACTIVA</option><option>INACTIVA</option></select></div><div><button class="btn btn-primary">Guardar materia</button></div></form></div></div></main></body></html>

@@ -1,0 +1,25 @@
+SAE ESCOLAR - VERSION ORGANIZADA
+
+CARPETAS:
+- entradas/: formularios para registrar alumnos, profesores, materias y grupos.
+- consultas/: listas, boletas y alumnos de baja.
+- procesos/: asignación de alumnos a grupos y materias.
+- crud/: administrar alumnos, profesores, materias y grupos. Incluye Crear, Leer, Actualizar y Eliminar.
+- assets/: estilos CSS.
+
+INSTALACION XAMPP:
+1. Copia la carpeta Formularios2_final dentro de C:\xampp\htdocs\
+2. Inicia Apache y MySQL.
+3. En phpMyAdmin importa base_datos_sae.sql si todavía no existe sae_escolar.
+4. Abre http://localhost/Formularios2_final/
+
+La conexión predeterminada usa localhost, usuario root, contraseña vacía y base sae_escolar.
+El CRUD se encuentra en el menú superior CRUD. Para cada entidad puedes crear, ver, editar y eliminar registros.
+
+BOTON DESPLEGABLE DE REGISTROS:
+En la pagina principal, el boton "Ver registros" muestra un menu con los formularios para registrar alumnos, profesores, materias y grupos, y accesos para administrar cada tipo mediante CRUD. En la barra superior, la opcion "Registros" tambien despliega los formularios.
+
+CRUD adicionales de relaciones:
+- crud/gestionar_asignaciones.php?tipo=grupos: administrar asignaciones de alumnos a grupos y profesores.
+- crud/gestionar_asignaciones.php?tipo=materias: administrar asignaciones de materias, alumnos, profesores y calificaciones.
+Ambos CRUD usan listas desplegables para seleccionar registros existentes y muestran los nombres en la tabla.
